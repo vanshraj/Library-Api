@@ -6,27 +6,33 @@ var logger = require('morgan');
 var index = require('./routes/index');
 var api = require('./routes/api');
 var mongoose = require('mongoose');
-var dbUrl = "mongodb://localhost:27017/Library";//process.env.DBURL;
-
-mongoose.connect(dbUrl, {
+var config = require('config');
+var dbOptions = {
    useNewUrlParser: true,
    useUnifiedTopology: true,
    useCreateIndex: true,
    useFindAndModify: false
- } , function(err, res){
+ };
+ var dbUrl = config.DBHost;
+
+//connect db
+mongoose.connect(dbUrl, dbOptions , function(err, res){
   if(err)
     console.log('DB connection failed: '+err);
   else
     console.log('DB connection running: '+dbUrl);
 });
 
+//setup server
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
+if(config.useLogger){
+  app.use(logger('dev'));
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
