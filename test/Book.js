@@ -1,12 +1,12 @@
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require("../app");
+let Book = require("../models/Book");
 let should = chai.should();
 let assert = chai.assert
 chai.use(chaiHttp);
 
 describe('Books Api', () => {
-  let length;
   let aBook = {
     'uuid':'1234',
     'name':'A fine Balance',
@@ -16,8 +16,14 @@ describe('Books Api', () => {
     'name':'The Book Thief',
     'authorName':'Markus'
   }
+
   //Test GET
-  describe('GET /books', () =>{
+  describe('GET /books', () => {
+    beforeEach((done) => {
+        Book.deleteMany({}, (err) => {
+           done();
+        });
+    });
     it("It should get all the books", (done) => {
       chai.request(server)
       .get('/books')
@@ -25,7 +31,7 @@ describe('Books Api', () => {
         res.should.have.status(200);
         res.body.confirmation.should.equal("success");
         res.body.results.should.be.a('Array');
-        length = res.body.results.length;
+        res.body.results.length.should.equal(0);
         done();
       });
     });
