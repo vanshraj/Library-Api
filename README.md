@@ -2,6 +2,7 @@
 This is a implementation of Library Api to manage Books by performing basic CRUD operation.
 
 ## Prerequisites
+
 First make sure you have following dependencies installed -
 * Nodejs 10+
 * Mongodb
@@ -22,3 +23,8 @@ DBHost to your own mongo server in config for default, dev and test as per your 
 (to run the website on your local host 3000. )
 
 * You can also use if developing - ```nodemon start```
+
+## Postman Documentation
+
+Postman Documentation for the Library-Api.
+https://documenter.getpostman.com/view/2883992/TWDRszhF
